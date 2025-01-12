@@ -2,6 +2,10 @@
 
 A decentralized platform for connecting developers and clients, featuring real-time video consultations and blockchain-based smart contracts.
 
+## Video
+
+<iframe src="https://drive.google.com/file/d/1X27J-423wSwTopN-Aq53lI3ZC6M1BEcX/preview" width="640" height="480" allow="autoplay"></iframe>
+
 ## 🚀 Features
 
 - Real-time video consultations using Agora SDK
