@@ -27,7 +27,7 @@ A decentralized platform for connecting developers and clients, featuring real-t
 
 - Node.js (v16 or higher)
 - npm or yarn
-- MetaMask or any Web3 wallet
+- Required MetaMask to work
 - Git
 
 ## 🔧 Installation
