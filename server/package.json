@@ -1,0 +1,16 @@
+{
+  "name": "agora-token-server",
+  "version": "1.0.0",
+  "description": "Local token server for Agora",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "agora-access-token": "^2.0.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  }
+}
