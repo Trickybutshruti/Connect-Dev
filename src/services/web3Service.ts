@@ -165,93 +165,7 @@ class Web3Service {
         return hash;
     }
 
-    private async validateDuration(duration: number): Promise<string> {
-        // Ensure duration is a positive number
-        if (!duration || duration <= 0) {
-            throw new Error('Duration must be greater than 0');
-        }
-
-        // Convert duration to seconds
-        const durationInSeconds = Math.max(1, Math.floor(duration * 60));
-        
-        // Convert to string to avoid BigNumber issues
-        return durationInSeconds.toString();
-    }
-
-    private getCustomErrorName(errorData: string): string {
-        // Custom error signatures
-        const errorSignatures: { [key: string]: string } = {
-            '17c69794': 'CallNotFound',
-            '7939f424': 'InvalidAmount',
-            'c2d5b4b5': 'InvalidDuration',
-            'd1ab6ccd': 'InvalidDeveloper',
-            'f47d84c4': 'CallAlreadyExists',
-            '3bcc8979': 'CallAlreadyStarted',
-            '0de69ddb': 'CallAlreadyCompleted',
-            'b5babb70': 'Unauthorized',
-            '0c4e4138': 'SelfBookingNotAllowed',
-            'f7c3d683': 'DurationNotMet',
-            '8a0d5d23': 'PaymentFailed'
-        };
-
-        // Extract the first 8 characters after '0x'
-        const errorSignature = errorData.slice(2, 10);
-        return errorSignatures[errorSignature] || 'Unknown error';
-    }
-
-    private async getRevertReason(txData: any): Promise<string> {
-        try {
-            await this.web3.eth.call(txData);
-            return 'No revert reason found';
-        } catch (error: any) {
-            console.log('Full error object:', error);
-            
-            // Try to extract custom error data
-            if (error.data?.data) {
-                const errorData = error.data.data;
-                console.log('Error data:', errorData);
-                
-                // Get custom error name
-                const errorName = this.getCustomErrorName(errorData);
-                console.log('Custom error name:', errorName);
-
-                // Provide user-friendly error message
-                switch (errorName) {
-                    case 'CallNotFound':
-                        return 'Call not found with the given ID';
-                    case 'InvalidAmount':
-                        return 'Invalid payment amount';
-                    case 'InvalidDuration':
-                        return 'Invalid call duration';
-                    case 'InvalidDeveloper':
-                        return 'Invalid developer address';
-                    case 'CallAlreadyExists':
-                        return 'A call with this ID already exists';
-                    case 'CallAlreadyStarted':
-                        return 'Call has already started';
-                    case 'CallAlreadyCompleted':
-                        return 'Call has already been completed';
-                    case 'Unauthorized':
-                        return 'Unauthorized: you are not the client for this call';
-                    case 'SelfBookingNotAllowed':
-                        return 'You cannot book a call with yourself';
-                    case 'DurationNotMet':
-                        return 'Call duration requirement not met';
-                    case 'PaymentFailed':
-                        return 'Payment transfer failed';
-                    default:
-                        return `Contract error: ${errorName}`;
-                }
-            }
-
-            // Try to extract the revert reason from message
-            const revertReasonMatch = error.message.match(/execution reverted: (.*?)(?:\n|$)/);
-            if (revertReasonMatch) return revertReasonMatch[1];
-
-            return error.message;
-        }
-    }
-
+    
     async createCall(callId: string, developerAddress: string, duration: number, amount: string): Promise<string> {
         try {
             await this.initializeContract();
@@ -443,23 +357,7 @@ class Web3Service {
         }
     }
 
-    private convertToBytes32(str: string): string {
-        // Add a check for empty or null string
-        if (!str) {
-            throw new Error('Cannot convert empty string to bytes32');
-        }
-
-        // Hash the string first to ensure fixed length
-        const hash = this.web3.utils.keccak256(str);
-        
-        console.log('Converting to bytes32:', {
-            input: str,
-            hash: hash,
-            length: hash.length
-        });
-        
-        return hash;
-    }
+  
 
     private async validateDuration(duration: number): Promise<string> {
         // Ensure duration is a positive number
